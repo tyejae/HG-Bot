@@ -27,6 +27,7 @@ class GetMyCallsCommand extends commando.Command {
                 var calls = JSON.parse( xhr.responseText ).calls;
                 for (let index in calls) {
                     if (calls[index].playername === message.author.username) {
+                        console.log(calls[index]);
                         myCalls.push(parseInt(calls[index].posy) + 1);
                     }
                 }
