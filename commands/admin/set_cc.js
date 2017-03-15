@@ -4,7 +4,7 @@ var REG_EXP = require( '../../constants/regular_expressions.js' );
 var WAR_INFO = require( '../../war_info.js' );
 var XMLHttpRequest = require( 'xhr2' );
 
-class GetMyCallsCommand extends commando.Command {
+class SetClashCallerCodeCommand extends commando.Command {
     constructor( client ) {
         super(client, {
             name: 'setcc',
@@ -19,4 +19,4 @@ class GetMyCallsCommand extends commando.Command {
     }
 }
 
-module.exports = GetMyCallsCommand;
+module.exports = SetClashCallerCodeCommand;
