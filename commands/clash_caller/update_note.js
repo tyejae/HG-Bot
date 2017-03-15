@@ -14,7 +14,7 @@ class UpdateNoteCommand extends commando.Command {
         });
     }
     async run( message, args ) {
-        if(message.channel != 'dibs') return;
+        if(message.channel.name != 'dibs') return;
         
         if ( args.length < 1 ) {
             message.channel.sendMessage( MESSAGES.INVALID_COMMAND );

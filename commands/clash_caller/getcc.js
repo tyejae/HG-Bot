@@ -14,7 +14,7 @@ class DiceRollCommand extends commando.Command {
     }
 
     async run(message, args) {
-        if(message.channel != 'dibs') return;
+        if(message.channel.name != 'dibs') return;
         
         message.reply("http://clashcaller.com/war/" + WAR_INFO.CURRENT_WAR_CODE);
     }

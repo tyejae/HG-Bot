@@ -16,7 +16,7 @@ class CallCommand extends commando.Command {
         });
     }
     async run( message, args ) {
-        if(message.channel != 'dibs') return;
+        if(message.channel.name != 'dibs') return;
         
         var options = args.split(' for ');
         var playername = message.author.username;

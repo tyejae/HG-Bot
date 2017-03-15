@@ -14,7 +14,7 @@ class SetClashCallerCodeCommand extends commando.Command {
         });
     }
     async run( message, args ) {
-        if(message.channel != 'dibs') return;
+        if(message.channel.name != 'dibs') return;
         
         WAR_INFO.CURRENT_WAR_CODE = args;
         message.channel.sendMessage('CC code changed to ' + args);

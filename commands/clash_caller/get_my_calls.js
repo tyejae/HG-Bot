@@ -14,7 +14,7 @@ class GetMyCallsCommand extends commando.Command {
         });
     }
     async run( message, args ) {
-        if(message.channel != 'dibs') return;
+        if(message.channel.name != 'dibs') return;
         
         var myCalls = [];
         var botResponse = '\n', options, body, botReq;

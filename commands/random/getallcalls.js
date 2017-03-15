@@ -11,6 +11,7 @@ class GetAllCallsCommand extends commando.Command {
         });
     }
     async run(message, args) {
+        if(message.channel.name != 'dibs') return;
         var respstring = [], respnum = [], starnum = [];
         var botResponse = '\n', options, body, botReq;
         var xhr = new XMLHttpRequest();

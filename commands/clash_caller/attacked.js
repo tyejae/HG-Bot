@@ -15,7 +15,7 @@ class AttackedCommand extends commando.Command {
         });
     }
     async run(message, args) {
-        if(message.channel != 'dibs') return;
+        if(message.channel.name != 'dibs') return;
         
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "http://clashcaller.com/api.php", true);
