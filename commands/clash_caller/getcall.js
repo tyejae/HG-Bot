@@ -4,13 +4,13 @@ var REG_EXP = require( '../../constants/regular_expressions.js' );
 var WAR_INFO = require( '../../war_info.js' );
 var XMLHttpRequest = require( 'xhr2' );
 
-class GetNoteCommand extends commando.Command {
+class GetCallCommand extends commando.Command {
     constructor( client ) {
         super(client, {
-            name: 'getnote',
+            name: 'getcall',
             group: 'clash_caller',
-            memberName: 'getnote',
-            description: 'Get note on target'
+            memberName: 'getcall',
+            description: 'Get calls on base.'
         });
     }
     async run( message, args ) {
@@ -21,6 +21,7 @@ class GetNoteCommand extends commando.Command {
             if ( !args[0].match( REG_EXP.INTEGER ) ) {
                 message.channel.sendMessage( MESSAGES.INVALID_COMMAND );
             } else {
+                var callList = [];
                 var botResponse = '\n', options, body, botReq;
                 var xhr = new XMLHttpRequest();
                 var maxY = 0;
@@ -31,13 +32,23 @@ class GetNoteCommand extends commando.Command {
                 xhr.onreadystatechange = function ( returnval ) {
                     if ( xhr.readyState == xhr.DONE && xhr.status == 200 ) {
                         var response = JSON.parse( xhr.responseText );
-                        var targets = response.targets;
                         var index = parseInt( args[0] ) - 1;
-                        if ( index > 0 && index < response.general.size.length ) {
-                            if ( targets[index].note != null ) {
-                                message.channel.sendMessage( '**Note for target #' + ( index + 1 ) + ':**\n' + targets[index].note);
+                        if ( index > 0 && index < response.general.size ) {
+                            var calls = response.calls;
+                            for (var callIndex in calls) {
+                                if (calls[callIndex].posy == index) {
+                                    callList.push(calls[callIndex].playername);
+                                }
+                            }
+
+                            if (callList.length == 0) {
+                                message.channel.sendMessage(MESSAGES.NO_CALLS_BASE);
                             } else {
-                                message.channel.sendMessage( 'No note for target #' + ( index + 1 ) );
+                                botResponse += '**Calls for base #' + (index + 1) + ':**';
+                                for (let i in callList) {
+                                    botResponse += '\n' + callList[i];
+                                }
+                                message.channel.sendMessage(botResponse);
                             }
 
                         } else {
@@ -51,4 +62,4 @@ class GetNoteCommand extends commando.Command {
     }
 }
 
-module.exports = GetNoteCommand;
+module.exports = GetCallCommand;
