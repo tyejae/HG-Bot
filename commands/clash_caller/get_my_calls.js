@@ -14,6 +14,8 @@ class GetMyCallsCommand extends commando.Command {
         });
     }
     async run( message, args ) {
+        if(message.channel != 'dibs') return;
+        
         var myCalls = [];
         var botResponse = '\n', options, body, botReq;
         var xhr = new XMLHttpRequest();
