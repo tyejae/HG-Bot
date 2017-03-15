@@ -81,31 +81,6 @@ class AttackedCommand extends commando.Command {
                         return;
                     }
                 }
-     
-        // if($found_call){
-        //     $cgn_message = '';
-        //     if($greeting != ''){
-        //         if($stars == 3){
-        //             $cgn_message = preg_replace("/@name/", $name, $greeting);
-        //             $cgn_message = "\n" . $this->spin_text($cgn_message);
-        //         }
-        //     }
-        //     $data = array('REQUEST' => 'UPDATE_STARS',
-        //               'warcode' => $this->cc,
-        //               'posx' => $x_,
-        //               'posy' => $y_,
-        //               'value' => $stars + 2);
-        //     $this -> api_call($data);
-        //     return sprintf("Logged %d stars on #%d by %s%s", $stars, $num, $name, $cgn_message);
-        // }else{
-        //     if($is_admin){
-        //         $this -> call_target($num, $name);
-        //         return $this -> update_stars($num, $stars, $name, $greeting, $is_admin);
-        //     }else{
-        //         return sprintf("You have no calls on #%d, %s", $num, $name);
-        //     }
-        // }
-                
             }
         }
     }
