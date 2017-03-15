@@ -97,7 +97,7 @@ class CallCommand extends commando.Command {
         xhr.onreadystatechange = function (returnval) {
             if (xhr.readyState == xhr.DONE && xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
-                if (posy < 1 || posy > response.general.size) {
+                if (posy < 0 || posy > response.general.size) {
                     message.channel.sendMessage('Target is out of bounds.');
                     return;
                 }
