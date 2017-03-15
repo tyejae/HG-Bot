@@ -2,7 +2,9 @@ const commando = require('discord.js-commando');
 const bot = new commando.Client();
 
 bot.registry.registerGroup('random', 'Random');
+bot.registry.registerGroup('clash_caller', 'Clash Caller');
 bot.registry.registerDefaults();
 bot.registry.registerCommandsIn(__dirname + "/commands");
 
-bot.login('MjkwOTI4NDYwNjIzMzgwNDgw.C6iYeQ.8Oin_Kv2E5bMwfRubQAlusoAmfo');
+// bot.login('MjkwOTI4NDYwNjIzMzgwNDgw.C6iYeQ.8Oin_Kv2E5bMwfRubQAlusoAmfo');
+bot.login('MjkxMDUwMzA0OTI4MDg4MDc0.C6j1Rw.oj3Meann4Hlvmj6WblKaxr7Xebc'); // tyejae bot
