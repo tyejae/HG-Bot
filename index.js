@@ -3,6 +3,7 @@ const bot = new commando.Client();
 
 bot.registry.registerGroup('random', 'Random');
 bot.registry.registerGroup('clash_caller', 'Clash Caller');
+bot.registry.registerGroup('admin', 'Admin');
 bot.registry.registerDefaults();
 bot.registry.registerCommandsIn(__dirname + "/commands");
 

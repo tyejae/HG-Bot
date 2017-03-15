@@ -4,7 +4,7 @@ var REG_EXP = require( '../../constants/regular_expressions.js' );
 var WAR_INFO = require( '../../war_info.js' );
 var XMLHttpRequest = require( 'xhr2' );
 
-class GetMyCallsCommand extends commando.Command {
+class GetCallsForCommand extends commando.Command {
     constructor( client ) {
         super(client, {
             name: 'getcallsfor',
@@ -14,7 +14,7 @@ class GetMyCallsCommand extends commando.Command {
         });
     }
     async run( message, args ) {
-        var myCalls = [];
+        var playerCalls = [];
         var botResponse = '\n', options, body, botReq;
         var xhr = new XMLHttpRequest();
         var maxY = 0;
@@ -27,16 +27,16 @@ class GetMyCallsCommand extends commando.Command {
                 var calls = JSON.parse( xhr.responseText ).calls;
                 for (let index in calls) {
                     if (calls[index].playername === args) {
-                        myCalls.push(parseInt(calls[index].posy) + 1);
+                        playerCalls.push(parseInt(calls[index].posy) + 1);
                     }
                 }
 
-                if (myCalls.length == 0) {
+                if (playerCalls.length == 0) {
                     message.channel.sendMessage(MESSAGES.NO_CALLS);
                 } else {
                     botResponse += '** Calls for ' + args + ':**';
-                    for (let cIndex in myCalls) {
-                        botResponse += '\n#' + myCalls[cIndex];
+                    for (let cIndex in playerCalls) {
+                        botResponse += '\n#' + playerCalls[cIndex];
                     }
                     message.channel.sendMessage(botResponse);
                 }
@@ -46,4 +46,4 @@ class GetMyCallsCommand extends commando.Command {
     }
 }
 
-module.exports = GetMyCallsCommand;
+module.exports = GetCallsForCommand;
