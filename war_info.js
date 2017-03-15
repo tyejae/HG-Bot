@@ -1,3 +1,3 @@
 module.exports = {
-    CURRENT_WAR_CODE: "whpew"
+    CURRENT_WAR_CODE: "6wxta"
 }
