@@ -19,10 +19,11 @@ class GetAllCallsCommand extends commando.Command {
 
         xhr.open("POST", "http://clashcaller.com/api.php", true);
         xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded');
-        xhr.send("REQUEST=GET_FULL_UPDATE&warcode=8dmna");
+        xhr.send("REQUEST=GET_FULL_UPDATE&warcode=6wxta");
         xhr.onreadystatechange = function (returnval) {
             if (xhr.readyState == xhr.DONE && xhr.status == 200) {
                 var respJSON = JSON.parse(xhr.responseText);
+                console.log(respJSON);
                 for (var rKey in respJSON) {
                     if (rKey == "calls") {
                         var callsJSON = JSON.parse(JSON.stringify(respJSON[rKey]));
@@ -59,7 +60,18 @@ class GetAllCallsCommand extends commando.Command {
                             postNum = false;
                         }
                         if (i == respnum[j]) {
-                            botResponse += respstring[j] + ', ';
+                            if (starnum[j] == 5) {
+                                botResponse += respstring[j] + ' (\:star:\:star:\:star:), ';
+                            } else if(starnum[j] == 4) {
+                                botResponse += respstring[j] + ' (\:star:\:star:), ';
+                            } else if(starnum[j] == 3) {
+                                botResponse += respstring[j] + ' (\:star:), ';
+                            } else if(starnum[j] == 2) {
+                                botResponse += respstring[j] + ' (0...), ';
+                            } else {
+                                botResponse += respstring[j] + ', ';
+                            }
+                            
                             postNL = true;
                         }
                     }
