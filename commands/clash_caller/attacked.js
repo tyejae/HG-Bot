@@ -1,0 +1,115 @@
+const commando = require('discord.js-commando');
+var MESSAGES = require('../../constants/messages.js');
+var REG_EXP = require('../../constants/regular_expressions.js');
+var WAR_INFO = require('../../war_info.js');
+var XMLHttpRequest = require('xhr2');
+
+class AttackedCommand extends commando.Command {
+    constructor(client) {
+        super(client, {
+            name: 'attacked',
+            group: 'clash_caller',
+            memberName: 'attacked',
+            description: 'Log attack',
+            examples: ['!attacked # for # stars', '!attacked # for # stars by [player name]']
+        });
+    }
+    async run(message, args) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://clashcaller.com/api.php", true);
+        xhr.setRequestHeader("Content-type", 'application/x-www-form-urlencoded');
+        xhr.send("REQUEST=GET_FULL_UPDATE&warcode=" + WAR_INFO.CURRENT_WAR_CODE);
+        xhr.onreadystatechange = function (returnval) {
+            if (xhr.readyState == xhr.DONE && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+
+                // Parse the args
+                var options = args.split(' by ');
+                var playername = options.length == 2 ? options[1] : message.author.username;
+                options = options[0].split(' for ');
+                var posy = parseInt(options[0]) - 1;
+                var stars = parseInt(options[1].substring(0, 1));
+                console.log(playername + ' attacked #' + posy + ' for ' + stars + ' stars');
+
+                // Validate the stars
+                if (stars < 0 || stars > 3) {
+                    message.channel.sendMessage('Invalid stars, dunno what game you\'re playing!');
+                    return;
+                }
+
+                var calls = response.calls;
+                var foundCall = false;
+                var isAdmin = false; // TODO: Need to eventually set up admin rights
+                var call = undefined;
+                if (calls.length == 0) {
+                    if (isAdmin) {
+                        // TODO: Allow admin to call target then update the stars
+                    } else {
+                        message.channel.sendMessage(playername + ' has no calls on #' + ( posy + 1 ) );
+                        return;
+                    }
+                } else {
+                    for (var cIndex in calls) {
+                        call = calls[cIndex];
+                        if (call.playername == playername && call.posy == posy) {
+                            foundCall = true;
+                            break;
+                        }
+                    }
+                }
+                if (foundCall) {
+                    var botResponse = '';
+                    if (stars == 3) {
+                        // TODO: Create random awesome message
+                        botResponse += "***Someone wore their big boy pants today!***\n";
+                    }
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open("POST", "http://clashcaller.com/api.php", true);
+                    xhr2.setRequestHeader("Content-type", 'application/x-www-form-urlencoded');
+                    xhr2.send("REQUEST=UPDATE_STARS&warcode=" + WAR_INFO.CURRENT_WAR_CODE + '&posx=' + call.posx + '&posy=' + call.posy + '&value=' + (stars + 2));
+                    xhr2.onreadystatechange = function (returnval) {
+                        if (xhr2.readyState == xhr2.DONE && xhr2.status == 200) {
+                            botResponse += 'Logged ' + stars + ' stars on #' + (posy + 1) + ' by ' + playername;
+                            message.channel.sendMessage(botResponse);
+                        }
+                    }
+                } else {
+                    if (isAdmin) {
+                        // TODO: Allow admin to call target then update the stars
+                    } else {
+                        message.channel.sendMessage(playername + ' has no calls on #' + ( posy + 1 ) );
+                        return;
+                    }
+                }
+     
+        // if($found_call){
+        //     $cgn_message = '';
+        //     if($greeting != ''){
+        //         if($stars == 3){
+        //             $cgn_message = preg_replace("/@name/", $name, $greeting);
+        //             $cgn_message = "\n" . $this->spin_text($cgn_message);
+        //         }
+        //     }
+        //     $data = array('REQUEST' => 'UPDATE_STARS',
+        //               'warcode' => $this->cc,
+        //               'posx' => $x_,
+        //               'posy' => $y_,
+        //               'value' => $stars + 2);
+        //     $this -> api_call($data);
+        //     return sprintf("Logged %d stars on #%d by %s%s", $stars, $num, $name, $cgn_message);
+        // }else{
+        //     if($is_admin){
+        //         $this -> call_target($num, $name);
+        //         return $this -> update_stars($num, $stars, $name, $greeting, $is_admin);
+        //     }else{
+        //         return sprintf("You have no calls on #%d, %s", $num, $name);
+        //     }
+        // }
+                
+            }
+        }
+    }
+}
+
+
+module.exports = AttackedCommand;
