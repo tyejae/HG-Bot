@@ -1,5 +1,5 @@
 
 module.exports = {
     INTEGER: /\d/,
-    GET_CALLS_FOR: /for [a-z]*/g
+    NUMBER_1_50: /^(?:[1-9]|[1-4][0-9]|50)$/
 }
