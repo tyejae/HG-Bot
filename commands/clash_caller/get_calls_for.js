@@ -7,10 +7,10 @@ var XMLHttpRequest = require( 'xhr2' );
 class GetMyCallsCommand extends commando.Command {
     constructor( client ) {
         super(client, {
-            name: 'getmycalls',
+            name: 'getcallsfor',
             group: 'clash_caller',
-            memberName: 'getmycalls',
-            description: 'Get your calls'
+            memberName: 'getcalls for',
+            description: 'Get calls for player'
         });
     }
     async run( message, args ) {
@@ -26,7 +26,7 @@ class GetMyCallsCommand extends commando.Command {
             if ( xhr.readyState == xhr.DONE && xhr.status == 200 ) {
                 var calls = JSON.parse( xhr.responseText ).calls;
                 for (let index in calls) {
-                    if (calls[index].playername === message.author.username) {
+                    if (calls[index].playername === args) {
                         myCalls.push(parseInt(calls[index].posy) + 1);
                     }
                 }
@@ -34,7 +34,7 @@ class GetMyCallsCommand extends commando.Command {
                 if (myCalls.length == 0) {
                     message.channel.sendMessage(MESSAGES.NO_CALLS);
                 } else {
-                    botResponse += '** Calls for ' + message.author.username + ':**';
+                    botResponse += '** Calls for ' + args + ':**';
                     for (let cIndex in myCalls) {
                         botResponse += '\n#' + myCalls[cIndex];
                     }

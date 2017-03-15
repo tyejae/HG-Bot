@@ -1,4 +1,5 @@
 
 module.exports = {
-    INTEGER: /\d/
+    INTEGER: /\d/,
+    GET_CALLS_FOR: /for [a-z]*/g
 }
