@@ -1,2 +1,2 @@
 web: npm start
-web: node --harmony index.js
+cron: node --harmony index.js
